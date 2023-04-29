@@ -16,85 +16,26 @@ namespace ToDoAPI.Controllers
         [HttpGet]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
         public async Task<ActionResult<IEnumerable<ToDoTask>>> GetTasks()
-        {
-            try
-            {
-                return Ok(await _business.GetTasks());
-            }
-            catch (Exception ex)
-            {
-                return Problem(
-                    detail: ex.Message,
-                    statusCode: (int?)ex.Data["code"]
-                );
-            }
-        }
+            => Ok(await _business.GetTasks());
 
         [HttpGet("{id}")]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
         public async Task<ActionResult<ToDoTask>> GetTask(int id)
-        {
-            try
-            {
-                return Ok(await _business.GetTask(id));
-            }
-            catch (Exception ex)
-            {
-                return Problem(
-                    detail: ex.Message,
-                    statusCode: (int?)ex.Data["code"]
-                );
-            }
-        }
+            => Ok(await _business.GetTask(id));
+
         [HttpPost]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Post))]
         public async Task<ActionResult<ToDoTask>> AddTask(string title)
-        {
-            try
-            {
-                return Ok(await _business.AddTask(title));
-            }
-            catch (Exception ex)
-            {
-                return Problem(
-                    detail: ex.Message,
-                    statusCode: (int?)ex.Data["code"]
-                );
-            }
-        }
+            => Ok(await _business.AddTask(title));
 
         [HttpPut("{id}")]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
         public async Task<ActionResult<ToDoTask>> UpdateTask(int id, [FromBody] ToDoTaskBase task)
-        {
-            try
-            {
-                return Ok(await _business.UpdateTask(id, task));
-            }
-            catch (Exception ex)
-            {
-                return Problem(
-                    detail: ex.Message,
-                    statusCode: (int?)ex.Data["code"]
-                );
-            }
-        }
+            => Ok(await _business.UpdateTask(id, task));
         
         [HttpDelete("{id}")]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Delete))]
         public async Task<ActionResult<ToDoTask>> DeleteTask(int id)
-        {
-            try
-            {
-                return Ok(await _business.DeleteTask(id));
-            }
-            catch (Exception ex)
-            {
-                return Problem(
-                    detail: ex.Message,
-                    statusCode: (int?)ex.Data["code"]
-                );
-            }
-        }
+            => Ok(await _business.DeleteTask(id));
     }
 }
