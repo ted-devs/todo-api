@@ -1,7 +1,6 @@
-﻿const BASE_URI = "https://localhost:7234/api";
-const GET_ALL = BASE_URI + "/todotasks";
+﻿const BASE_URI = "https://localhost:7234/api/todotasks";
 
-fetch(GET_ALL)
+fetch(BASE_URI, { method: "GET" })
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -32,4 +31,31 @@ function renderList(data) {
 
         parent.appendChild(div);
     }
+}
+
+function addTask() {
+    const textField = document.getElementById("title");
+    const title = textField.value;
+
+    if (title === null || title.length === 0 || title === "") {
+        alert("Title field is empty");
+        return;
+    }
+
+    console.log(title);
+
+    fetch(BASE_URI + `?title=${title}`, { method: "POST" })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("NETWORK RESPONSE ERROR");
+            }
+        }).then(data => {
+            console.log(data);
+            location.reload();
+        })
+        .catch(error => console.error("FETCH ERROR: ", error));
+
+    textField.value = null;
 }

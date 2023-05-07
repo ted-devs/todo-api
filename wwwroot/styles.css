@@ -27,3 +27,21 @@
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }
+
+#newtask {
+    margin: 20px;
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
+#title {
+    width: calc(100% - 114px);
+    border: none;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    padding: 8px 16px;
+}
+
+#title:focus {
+    outline: none;
+}
