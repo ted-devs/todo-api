@@ -26,8 +26,38 @@ function renderList(data) {
         title.id = "taskname";
         title.innerHTML = data[i].title;
 
+        // Delete Button
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.id = `delete${data[i].id}`
+        deleteButton.innerHTML = "X";
+        deleteButton.dataset.id = data[i].id;
+
+        // Add event listener to delete
+        deleteButton.addEventListener("click", function (event) {
+            if (event.target.id = `delete${event.target.dataset.id}`) {
+                console.log(event.target.dataset.id);
+
+                if (!confirm("Do you want to delete this task?")) { return; }
+
+                fetch(BASE_URI + `/${event.target.dataset.id}`, { method: "DELETE" })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error("NETWORK RESPONSE ERROR");
+                        }
+                    }).then(data => {
+                        console.log(data);
+                        location.reload();
+                    })
+                    .catch(error => console.error("FETCH ERROR: ", error));
+            }
+        });
+
         // Add items to HTML
         div.appendChild(title);
+        div.appendChild(deleteButton);
 
         parent.appendChild(div);
     }
