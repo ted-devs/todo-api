@@ -21,10 +21,50 @@ function renderList(data) {
         const div = document.createElement("div");
         div.className = "task";
 
-        // Title
-        const title = document.createElement("span");
-        title.id = "taskname";
-        title.innerHTML = data[i].title;
+        // Title Checkbox
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `checkbox${data[i].id}`;
+        checkbox.name = `checkbox${data[i].id}`;
+        checkbox.checked = data[i].completed;
+        checkbox.dataset.id = data[i].id;
+        checkbox.dataset.title = data[i].title;
+
+        // Checkbox Label
+        const label = document.createElement("label");
+        label.innerHTML = data[i].title;
+        label.htmlFor = `checkbox${data[i].id}`;
+
+        // Checkbox onchange
+        checkbox.addEventListener("change", function (event) {
+            if (event.target.id = `checkbox${event.target.dataset.id}`) {
+                console.log(event.target.dataset.id);
+
+                const body = {
+                    "title": event.target.dataset.title,
+                    "completed": event.target.checked
+                };
+
+                const params = {
+                    method: "PUT",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                };
+
+                fetch(BASE_URI + `/${event.target.dataset.id}`, params)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error("NETWORK RESPONSE ERROR");
+                        }
+                    }).then(data => {
+                        console.log(data);
+                        location.reload();
+                    })
+                    .catch(error => console.error("FETCH ERROR: ", error));
+            }
+        });
 
         // Delete Button
         const deleteButton = document.createElement("button");
@@ -56,7 +96,8 @@ function renderList(data) {
         });
 
         // Add items to HTML
-        div.appendChild(title);
+        div.appendChild(checkbox);
+        div.appendChild(label);
         div.appendChild(deleteButton);
 
         parent.appendChild(div);
