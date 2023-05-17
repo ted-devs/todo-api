@@ -75,7 +75,7 @@ function renderList(data) {
 
         // Add event listener to delete
         deleteButton.addEventListener("click", function (event) {
-            if (event.target.id = `delete${event.target.dataset.id}`) {
+            if (event.target.id === `delete${event.target.dataset.id}`) {
                 console.log(event.target.dataset.id);
 
                 if (!confirm("Do you want to delete this task?")) { return; }
