@@ -32,6 +32,83 @@ function fetchList() {
         .catch(error => console.error("FETCH ERROR: ", error));
 }
 
+function renderDeleteButton(data) {
+    // Delete Button
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.id = `delete${data.id}`
+    deleteButton.innerHTML = "X";
+    deleteButton.dataset.id = data.id;
+    // Add event listener to delete
+    deleteButton.addEventListener("click", function (event) {
+        if (event.target.id === `delete${event.target.dataset.id}`) {
+            console.log(event.target.dataset.id);
+
+            if (!confirm("Do you want to delete this task?")) { return; }
+
+            const params = { method: "DELETE" };
+            APIRequest(`/${event.target.dataset.id}`, params);
+        }
+    });
+
+    return deleteButton;
+}
+
+function renderUpdateButton(data) {
+    // Edit Button
+    const updateButton = document.createElement("button");
+    updateButton.type = "button";
+    updateButton.id = `update${data.id}`
+    updateButton.innerHTML = "O";
+    updateButton.dataset.id = data.id;
+    // Add event listener to update
+    updateButton.addEventListener("click", function (event) {
+        if (event.target.id = `update${event.target.dataset.id}`) {
+            const inputTextField = document.getElementById(`text${event.target.dataset.id}`);
+
+            if (inputTextField.disabled) {
+                inputTextField.disabled = false;
+            } else {
+                inputTextField.disabled = true;
+                const checkbox = document.getElementById(`checkbox${event.target.dataset.id}`);
+                updateTask(inputTextField.value, checkbox.checked);
+            }
+        }
+    });
+
+    return updateButton;
+}
+
+function renderTitle(data) {
+    // Checkbox Label
+    const text = document.createElement("input");
+    text.type = "text";
+    text.id = `text${data.id}`
+    text.value = data.title;
+    text.disabled = true;
+
+    return text;
+}
+
+function renderCheckbox(data) {
+    // Title Checkbox
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = `checkbox${data.id}`;
+    checkbox.name = `checkbox${data.id}`;
+    checkbox.checked = data.completed;
+    checkbox.dataset.id = data.id;
+    checkbox.dataset.title = data.title;
+    // Checkbox onchange
+    checkbox.addEventListener("change", function (event) {
+        if (event.target.id = `checkbox${event.target.dataset.id}`) {
+            updateTask(event.target.dataset.title, event.target.checked);
+        }
+    });
+
+    return checkbox;
+}
+
 function renderList(data) {
     const parent = document.getElementById("tasks");
     parent.innerHTML = null;
@@ -41,70 +118,14 @@ function renderList(data) {
         const div = document.createElement("div");
         div.className = "task";
 
-        // Title Checkbox
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `checkbox${data[i].id}`;
-        checkbox.name = `checkbox${data[i].id}`;
-        checkbox.checked = data[i].completed;
-        checkbox.dataset.id = data[i].id;
-        checkbox.dataset.title = data[i].title;
-        // Checkbox onchange
-        checkbox.addEventListener("change", function (event) {
-            if (event.target.id = `checkbox${event.target.dataset.id}`) {
-                updateTask(event.target.dataset.title, event.target.checked);
-            }
-        });
-
-        // Checkbox Label
-        const text = document.createElement("input");
-        text.type = "text";
-        text.id = `text${data[i].id}`
-        text.value = data[i].title;
-        text.disabled = true;
-
-        // Edit Button
-        const updateButton = document.createElement("button");
-        updateButton.type = "button";
-        updateButton.id = `update${data[i].id}`
-        updateButton.innerHTML = "O";
-        updateButton.dataset.id = data[i].id;
-        // Add event listener to update
-        updateButton.addEventListener("click", function (event) {
-            if (event.target.id = `update${event.target.dataset.id}`) {
-                const inputTextField = document.getElementById(`text${event.target.dataset.id}`);
-
-                if (inputTextField.disabled) {
-                    inputTextField.disabled = false;
-                } else {
-                    inputTextField.disabled = true;
-                    const checkbox = document.getElementById(`checkbox${event.target.dataset.id}`);
-                    updateTask(inputTextField.value, checkbox.checked);
-                }
-            }
-        });
-
-        // Delete Button
-        const deleteButton = document.createElement("button");
-        deleteButton.type = "button";
-        deleteButton.id = `delete${data[i].id}`
-        deleteButton.innerHTML = "X";
-        deleteButton.dataset.id = data[i].id;
-        // Add event listener to delete
-        deleteButton.addEventListener("click", function (event) {
-            if (event.target.id === `delete${event.target.dataset.id}`) {
-                console.log(event.target.dataset.id);
-
-                if (!confirm("Do you want to delete this task?")) { return; }
-
-                const params = { method: "DELETE" };
-                APIRequest(`/${event.target.dataset.id}`, params);
-            }
-        });
+        const checkbox = renderCheckbox(data[i]);
+        const title = renderTitle(data[i]);
+        const updateButton = renderUpdateButton(data[i]);
+        const deleteButton = renderDeleteButton(data[i]);
 
         // Add items to HTML
         div.appendChild(checkbox);
-        div.appendChild(text);
+        div.appendChild(title);
         div.appendChild(updateButton);
         div.appendChild(deleteButton);
 
