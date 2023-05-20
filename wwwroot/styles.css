@@ -35,7 +35,7 @@
 }
 
 #title {
-    width: calc(100% - 114px);
+    width: calc(100% - 120px);
     border: none;
     font-size: 16px;
     font-family: 'Poppins', sans-serif;
@@ -44,4 +44,46 @@
 
 #title:focus {
     outline: none;
+}
+
+.button {
+    color: white;
+    font-weight: bold;
+    border: none;
+    background-color: dodgerblue;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin: 0px 4px;
+    border: 2px solid grey;
+}
+
+.button:hover {
+    border-color: black;
+}
+
+#addButton:active {
+    border: 2px solid black;
+/*    padding: 2px 6px;*/
+    background-color: midnightblue;
+}
+
+.delete {
+    background-color: orangered;
+}
+
+.delete:active {
+    background-color: darkred;
+}
+
+.update {
+    background-color: yellow;
+    color: black;
+}
+
+.update:active {
+    background-color: orange;
+}
+
+.checkbox {
+    transform: scale(1.4);
 }

@@ -39,6 +39,7 @@ function renderDeleteButton(data) {
     deleteButton.id = `delete${data.id}`
     deleteButton.innerHTML = "X";
     deleteButton.dataset.id = data.id;
+    deleteButton.className = "button delete";
     // Add event listener to delete
     deleteButton.addEventListener("click", function (event) {
         if (event.target.id === `delete${event.target.dataset.id}`) {
@@ -61,6 +62,7 @@ function renderUpdateButton(data) {
     updateButton.id = `update${data.id}`
     updateButton.innerHTML = "O";
     updateButton.dataset.id = data.id;
+    updateButton.className = "button update";
     // Add event listener to update
     updateButton.addEventListener("click", function (event) {
         if (event.target.id = `update${event.target.dataset.id}`) {
@@ -99,6 +101,7 @@ function renderCheckbox(data) {
     checkbox.checked = data.completed;
     checkbox.dataset.id = data.id;
     checkbox.dataset.title = data.title;
+    checkbox.className = "checkbox";
     // Checkbox onchange
     checkbox.addEventListener("change", function (event) {
         if (event.target.id = `checkbox${event.target.dataset.id}`) {
